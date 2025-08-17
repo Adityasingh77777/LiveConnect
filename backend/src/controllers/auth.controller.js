@@ -30,6 +30,7 @@ export const signup=async(req,res)=>{
              await newUser.save()
 
              res.status(200).json({
+                _id:newUser._id,
                 message:"user created Successfully",
                 fullName:newUser.fullName,
                 email:newUser.email,
@@ -53,15 +54,9 @@ export const signup=async(req,res)=>{
 };
 
 export const login=(req,res)=>{
-   try{
-
-   }
-
-   catch(error){
-
-   }
+   res.send("login route")
 }
 
 export const logout=(req,res)=>{
-    
+    res.send("logout route")
 }
