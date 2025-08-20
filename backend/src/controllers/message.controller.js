@@ -58,6 +58,8 @@ export const sendMessage=async(req,res)=>{
 
         await newMessage.save();
 
+        // real time functionality will be done in the future using socket.io
+
         res.status(201).json(newMessage);
 
     }
