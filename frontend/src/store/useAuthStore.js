@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
+import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
     authUser: null,                // Stores the current authenticated user (null if not logged in)
     isSigningUp: false,            // Tracks if a signup request is in progress
-    isLoggingUp: false,            // Tracks if a login request is in progress
+    isLoggingIn: false,            // Tracks if a login request is in progress
     isUpdatingProfile: false,      // Tracks if a profile update is in progress
     isCheckingAuth: true,          // Tracks if the app is checking if the user is authenticated
 
@@ -31,6 +32,29 @@ export const useAuthStore = create((set) => ({
             toast.error(error.response.data.message);
         }finally{
             set({isSigningUp:false});
+        }
+    },
+
+    login:async(data) =>{
+        set({isLoggingIn :true});
+        try{
+            const res=await axiosInstance.post("/auth/login",data);
+            set({authUser:res.data});
+            toast.success("Logged in Successfully")
+        }catch(error){
+            toast.error(error.response.data.message);
+        }finally{
+            set({isLoggingIn:false});
+        }
+    },
+
+    logout:async()=>{
+        try{
+            await axiosInstance.post("/auth/logout");
+            set({authUser:null});
+            toast.success("Logged out successfully")
+        }catch(error){
+            toast.error(error.message.data.message);
         }
     }
 }));
