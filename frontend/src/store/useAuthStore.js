@@ -5,13 +5,13 @@ import { io } from "socket.io-client";
 
 // API base URL
 const API_BASE_URL =
-  import.meta.env.MODE === "development"
+  import.meta.env.NODE_ENV === "development"
     ? "http://localhost:5003/api"
     : "https://liveconnect-0wp5.onrender.com/api";
 
 // SOCKET server URL (no /api here)
 const SOCKET_URL =
-  import.meta.env.MODE === "development"
+  import.meta.env.NODE_ENV=== "development"
     ? "http://localhost:5003"
     : "https://liveconnect-0wp5.onrender.com";
 
