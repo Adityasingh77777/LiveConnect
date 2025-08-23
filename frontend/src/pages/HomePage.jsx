@@ -3,7 +3,6 @@ import { useChatStore } from "../store/useChatStore";
 import Sidebar from "../components/Sidebar";
 import NoChatSelected from "../components/NoChatSelected";
 import ChatContainer from "../components/ChatContainer";
-import CookieTest from "../components/CookieTest";
 
 const HomePage = () => {
   const { selectedUser } = useChatStore();
@@ -15,16 +14,7 @@ const HomePage = () => {
           <div className="flex h-full rounded-lg overflow-hidden">
             <Sidebar />
 
-            {!selectedUser ? (
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <NoChatSelected />
-                <div className="mt-8 w-full max-w-md">
-                  <CookieTest />
-                </div>
-              </div>
-            ) : (
-              <ChatContainer />
-            )}
+            {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
           </div>
         </div>
       </div>

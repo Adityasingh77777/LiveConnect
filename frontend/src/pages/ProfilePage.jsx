@@ -30,7 +30,7 @@ const ProfilePage = () => {
             <p className="mt-2">Your profile information</p>
           </div>
 
-          {/* avatar */}
+          {/* avatar upload section */}
 
           <div className="flex flex-col items-center gap-4">
             <div className="relative">

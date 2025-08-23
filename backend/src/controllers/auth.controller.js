@@ -29,7 +29,7 @@ export const signup = async (req, res) => {
 
     if (newUser) {
       // generate jwt token here
-      generateToken(newUser._id, res, req);
+      generateToken(newUser._id, res);
       await newUser.save();
 
       res.status(201).json({
@@ -50,10 +50,6 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    console.log("🔑 Login attempt for:", email);
-    console.log("🔑 Request origin:", req.headers.origin);
-    console.log("🔑 Request host:", req.headers.host);
-    
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -65,9 +61,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    console.log("🔑 Password verified, generating token...");
-    generateToken(user._id, res, req);
-    console.log("🔑 Token generated and cookie set");
+    generateToken(user._id, res);
 
     res.status(200).json({
       _id: user._id,
@@ -83,18 +77,7 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    // Determine if we're in production based on the request origin
-    const isProduction = req?.headers?.origin?.includes('liveconnect.pages.dev') || 
-                        process.env.NODE_ENV === "production";
-
-    res.cookie("jwt", "", {
-      maxAge: 0,
-      httpOnly: true,
-      sameSite: "lax",
-      secure: isProduction,
-      domain: isProduction ? ".liveconnect.pages.dev" : undefined,
-      path: "/",
-    });
+    res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller", error.message);
