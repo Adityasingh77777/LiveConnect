@@ -3,15 +3,15 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const API_BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5003/api"
-    : "https://liveconnect-0wp5.onrender.com/api";
+const isDevelopment = import.meta.env.MODE === "development";
 
-const SOCKET_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5003"
-    : "https://liveconnect-0wp5.onrender.com";
+const API_BASE_URL = isDevelopment
+  ? "http://localhost:5003/api"
+  : "https://liveconnect-0wp5.onrender.com/api";
+
+const SOCKET_URL = isDevelopment
+  ? "http://localhost:5003"
+  : "https://liveconnect-0wp5.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -105,12 +105,18 @@ export const useAuthStore = create((set, get) => ({
     const newSocket = io(SOCKET_URL, {
       query: { userId: authUser._id },
       withCredentials: true,
+      transports: ["websocket", "polling"],
+      timeout: 20000,
     });
 
     set({ socket: newSocket });
 
     newSocket.on("connect", () => {
       console.log("✅ Socket connected:", newSocket.id);
+    });
+
+    newSocket.on("connect_error", (error) => {
+      console.error("❌ Socket connection error:", error);
     });
 
     newSocket.on("disconnect", () => {
