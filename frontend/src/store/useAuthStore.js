@@ -13,6 +13,11 @@ const SOCKET_URL = isDevelopment
   ? "http://localhost:5003"
   : "https://liveconnect-0wp5.onrender.com";
 
+console.log("🔧 Auth store configured with:");
+console.log("🔧 API URL:", API_BASE_URL);
+console.log("🔧 Socket URL:", SOCKET_URL);
+console.log("🔧 Environment:", import.meta.env.MODE);
+
 export const useAuthStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,

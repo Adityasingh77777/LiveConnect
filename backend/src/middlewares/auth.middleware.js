@@ -3,6 +3,16 @@ import User from "../models/user.model.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
+    console.log("🔐 Auth middleware triggered for:", req.path);
+    console.log("🔐 Request headers:", {
+      origin: req.headers.origin,
+      host: req.headers.host,
+      referer: req.headers.referer,
+      'user-agent': req.headers['user-agent']
+    });
+    console.log("🔐 All cookies received:", req.cookies);
+    console.log("🔐 Raw cookie header:", req.headers.cookie);
+    
     const token = req.cookies.jwt;
     
     console.log("🔐 Auth middleware - Cookies received:", req.cookies);
