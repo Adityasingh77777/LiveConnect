@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173","https://liveconnect.pages.dev"],
+    origin: ["http://localhost:5173","https://live-connect-three.vercel.app"],
     credentials: true,
   })
 );
